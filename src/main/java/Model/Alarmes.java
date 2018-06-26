@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,6 +37,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alarmes.findByDataAlarmes", query = "SELECT a FROM Alarmes a WHERE a.dataAlarmes = :dataAlarmes")
     , @NamedQuery(name = "Alarmes.findByHoraAlarmes", query = "SELECT a FROM Alarmes a WHERE a.horaAlarmes = :horaAlarmes")})
 public class Alarmes implements Serializable {
+
+    @Size(max = 255)
+    @Column(name = "remedioAlarme")
+    private String remedioAlarme;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -116,6 +121,14 @@ public class Alarmes implements Serializable {
         return " idAlarme= " + idAlarmes +"\ndata = "
                 +sdf.format(dataAlarmes)+"\nhora = "
                 +horaAlarmes+"\n"; 
+    }
+
+    public String getRemedioAlarme() {
+        return remedioAlarme;
+    }
+
+    public void setRemedioAlarme(String remedioAlarme) {
+        this.remedioAlarme = remedioAlarme;
     }
     
 }

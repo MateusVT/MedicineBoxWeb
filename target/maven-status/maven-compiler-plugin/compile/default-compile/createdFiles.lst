@@ -1,0 +1,12 @@
+Arduino/AcessaArduino.class
+DAOs/DAOGenerico.class
+caixaremedio/CaixaRemedio.class
+DAOs/DB_Direct_Connection.class
+DAOs/DB_Direct.class
+DAOs/ManipulaArquivo.class
+DAOs/DAODesligado.class
+Model/Acionado.class
+DAOs/DAOAlarmes.class
+Model/Alarmes.class
+DAOs/DAOAcionado.class
+Model/Desligado.class
