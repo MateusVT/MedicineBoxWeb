@@ -6,54 +6,50 @@
 package Model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lcorra
+ * @author leotr
  */
 @Entity
-@Table(name = "Alarmes")
+@Table(name = "alarmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Alarmes.findAll", query = "SELECT a FROM Alarmes a")
     , @NamedQuery(name = "Alarmes.findByIdAlarmes", query = "SELECT a FROM Alarmes a WHERE a.idAlarmes = :idAlarmes")
     , @NamedQuery(name = "Alarmes.findByDataAlarmes", query = "SELECT a FROM Alarmes a WHERE a.dataAlarmes = :dataAlarmes")
-    , @NamedQuery(name = "Alarmes.findByHoraAlarmes", query = "SELECT a FROM Alarmes a WHERE a.horaAlarmes = :horaAlarmes")})
+    , @NamedQuery(name = "Alarmes.findByHoraAlarmes", query = "SELECT a FROM Alarmes a WHERE a.horaAlarmes = :horaAlarmes")
+    , @NamedQuery(name = "Alarmes.findByRemedioAlarme", query = "SELECT a FROM Alarmes a WHERE a.remedioAlarme = :remedioAlarme")})
 public class Alarmes implements Serializable {
-
-    @Size(max = 255)
-    @Column(name = "remedioAlarme")
-    private String remedioAlarme;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idAlarmes")
     private Integer idAlarmes;
     @Column(name = "dataAlarmes")
     @Temporal(TemporalType.DATE)
     private Date dataAlarmes;
+    @Size(max = 45)
     @Column(name = "horaAlarmes")
     private String horaAlarmes;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "alarmesidAlarmes")
-    private Collection<Acionado> acionadoCollection;
+    @Size(max = 255)
+    @Column(name = "remedioAlarme")
+    private String remedioAlarme;
 
     public Alarmes() {
     }
@@ -86,13 +82,12 @@ public class Alarmes implements Serializable {
         this.horaAlarmes = horaAlarmes;
     }
 
-    @XmlTransient
-    public Collection<Acionado> getAcionadoCollection() {
-        return acionadoCollection;
+    public String getRemedioAlarme() {
+        return remedioAlarme;
     }
 
-    public void setAcionadoCollection(Collection<Acionado> acionadoCollection) {
-        this.acionadoCollection = acionadoCollection;
+    public void setRemedioAlarme(String remedioAlarme) {
+        this.remedioAlarme = remedioAlarme;
     }
 
     @Override
@@ -117,18 +112,7 @@ public class Alarmes implements Serializable {
 
     @Override
     public String toString() {
-         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return " idAlarme= " + idAlarmes +"\ndata = "
-                +sdf.format(dataAlarmes)+"\nhora = "
-                +horaAlarmes+"\n"; 
-    }
-
-    public String getRemedioAlarme() {
-        return remedioAlarme;
-    }
-
-    public void setRemedioAlarme(String remedioAlarme) {
-        this.remedioAlarme = remedioAlarme;
+        return "Model.Alarmes[ idAlarmes=" + idAlarmes + " ]";
     }
     
 }

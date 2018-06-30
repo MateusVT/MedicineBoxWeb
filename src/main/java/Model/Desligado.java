@@ -6,27 +6,26 @@
 package Model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lcorra
+ * @author leotr
  */
 @Entity
-@Table(name = "Desligado")
+@Table(name = "desligado")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Desligado.findAll", query = "SELECT d FROM Desligado d")
@@ -35,20 +34,18 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Desligado.findByHoraDesligado", query = "SELECT d FROM Desligado d WHERE d.horaDesligado = :horaDesligado")})
 public class Desligado implements Serializable {
 
-    @Column(name = "horaDesligado")
-    private String horaDesligado;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idDesligado")
     private Integer idDesligado;
     @Column(name = "dataDesligado")
     @Temporal(TemporalType.DATE)
     private Date dataDesligado;
-    @JoinColumn(name = "Acionado_idAcionado", referencedColumnName = "idAcionado")
-    @ManyToOne(optional = false)
-    private Acionado acionadoidAcionado;
+    @Size(max = 45)
+    @Column(name = "horaDesligado")
+    private String horaDesligado;
 
     public Desligado() {
     }
@@ -73,13 +70,12 @@ public class Desligado implements Serializable {
         this.dataDesligado = dataDesligado;
     }
 
-
-    public Acionado getAcionadoidAcionado() {
-        return acionadoidAcionado;
+    public String getHoraDesligado() {
+        return horaDesligado;
     }
 
-    public void setAcionadoidAcionado(Acionado acionadoidAcionado) {
-        this.acionadoidAcionado = acionadoidAcionado;
+    public void setHoraDesligado(String horaDesligado) {
+        this.horaDesligado = horaDesligado;
     }
 
     @Override
@@ -104,18 +100,7 @@ public class Desligado implements Serializable {
 
     @Override
     public String toString() {
-         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return " idDesligado = " + idDesligado +"\ndata = "
-                +sdf.format(dataDesligado)+"\nhora = "
-                +horaDesligado+"\n"; 
-    }
-
-    public String getHoraDesligado() {
-        return horaDesligado;
-    }
-
-    public void setHoraDesligado(String horaDesligado) {
-        this.horaDesligado = horaDesligado;
+        return "Model.Desligado[ idDesligado=" + idDesligado + " ]";
     }
     
 }

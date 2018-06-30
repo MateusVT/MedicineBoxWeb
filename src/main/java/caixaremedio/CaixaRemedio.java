@@ -74,10 +74,9 @@ public class CaixaRemedio {
         String hora = "" + hours + ":" + minute;
 
         Acionado ac = new Acionado(a.getIdAlarmes());
-        ac.setAlarmesidAlarmes(a);
         ac.setDataAcionado(data);
         ac.setHoraAcionado(hora);
-        ac.setDesligadoAcionado(Boolean.FALSE);
+        ac.setDesligadoAcionado((short)0);
         dac.inserir(ac);
 
     }
@@ -93,7 +92,6 @@ public class CaixaRemedio {
         String hora = "" + hours + ":" + minute;
 
         Desligado d = new Desligado(ac.getIdAcionado());
-        d.setAcionadoidAcionado(ac);
         d.setDataDesligado(data);
         d.setHoraDesligado(hora);
         dd.inserir(d);

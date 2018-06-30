@@ -6,31 +6,26 @@
 package Model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lcorra
+ * @author leotr
  */
 @Entity
-@Table(name = "Acionado")
+@Table(name = "acionado")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Acionado.findAll", query = "SELECT a FROM Acionado a")
@@ -40,25 +35,20 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Acionado.findByDesligadoAcionado", query = "SELECT a FROM Acionado a WHERE a.desligadoAcionado = :desligadoAcionado")})
 public class Acionado implements Serializable {
 
-    @Column(name = "horaAcionado")
-    private String horaAcionado;
-
-    @JoinColumn(name = "Alarmes_idAlarmes", referencedColumnName = "idAlarmes")
-    @ManyToOne(optional = false)
-    private Alarmes alarmesidAlarmes;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idAcionado")
     private Integer idAcionado;
     @Column(name = "dataAcionado")
     @Temporal(TemporalType.DATE)
     private Date dataAcionado;
+    @Size(max = 45)
+    @Column(name = "horaAcionado")
+    private String horaAcionado;
     @Column(name = "desligadoAcionado")
-    private Boolean desligadoAcionado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "acionadoidAcionado")
-    private Collection<Desligado> desligadoCollection;
+    private Short desligadoAcionado;
 
     public Acionado() {
     }
@@ -83,22 +73,20 @@ public class Acionado implements Serializable {
         this.dataAcionado = dataAcionado;
     }
 
+    public String getHoraAcionado() {
+        return horaAcionado;
+    }
 
-    public Boolean getDesligadoAcionado() {
+    public void setHoraAcionado(String horaAcionado) {
+        this.horaAcionado = horaAcionado;
+    }
+
+    public Short getDesligadoAcionado() {
         return desligadoAcionado;
     }
 
-    public void setDesligadoAcionado(Boolean desligadoAcionado) {
+    public void setDesligadoAcionado(Short desligadoAcionado) {
         this.desligadoAcionado = desligadoAcionado;
-    }
-
-    @XmlTransient
-    public Collection<Desligado> getDesligadoCollection() {
-        return desligadoCollection;
-    }
-
-    public void setDesligadoCollection(Collection<Desligado> desligadoCollection) {
-        this.desligadoCollection = desligadoCollection;
     }
 
     @Override
@@ -123,26 +111,7 @@ public class Acionado implements Serializable {
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return " idAcionado = " + idAcionado +"\ndata = "
-                +sdf.format(dataAcionado)+"\nhora = "
-                +horaAcionado+"\n";        
-    }
-
-    public Alarmes getAlarmesidAlarmes() {
-        return alarmesidAlarmes;
-    }
-
-    public void setAlarmesidAlarmes(Alarmes alarmesidAlarmes) {
-        this.alarmesidAlarmes = alarmesidAlarmes;
-    }
-
-    public String getHoraAcionado() {
-        return horaAcionado;
-    }
-
-    public void setHoraAcionado(String horaAcionado) {
-        this.horaAcionado = horaAcionado;
+        return "Model.Acionado[ idAcionado=" + idAcionado + " ]";
     }
     
 }
